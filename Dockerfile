@@ -14,5 +14,5 @@ RUN chmod a+x /usr/bin/pipework /usr/bin/dnsmasq-wrapper
 # Wrapper helps with pipework
 ENTRYPOINT ["dnsmasq-wrapper"]
 
-# Define default command to be help
+# Default dnsmasq argument is --help which is passed after pipwork wait
 CMD ["--help"]
