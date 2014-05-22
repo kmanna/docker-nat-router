@@ -14,6 +14,5 @@ RUN chmod a+x /usr/bin/pipework /usr/bin/dnsmasq-wrapper
 # Wrapper helps with pipework
 ENTRYPOINT ["dnsmasq-wrapper"]
 
-# Define default command.
-CMD ["--dhcp-range=192.168.0.10,192.168.0.99,255.255.255.0", \
-     "--dhcp-option=option:router,192.168.0.1"]
+# Define default command to be help
+CMD ["--help"]
