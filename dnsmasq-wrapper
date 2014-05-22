@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Fail loudly
+set -ex
+
+echo Waiting for pipework to give us the eth1 interface...
+pipework --wait
+
+# Override DNSMASQ_OPTS to replace these
+DEFAULT_OPTS="--interface=eth1 --dhcp-authoritative --dhcp-broadcast"
+
+NONDEBUG_OPTS="--keep-in-foreground --user=root"
+# Override DNSMASQ_DEBUG with "--no-daemon" to help debug
+#DEBUG_OPTS="--no-daemon"
+
+echo Starting dnsmasq server...
+dnsmasq ${DNSMASQ_DEBUG-$NONDEBUG_OPTS} ${DNSMASQ_OPTS-$DEFAULT_OPTS} $@
