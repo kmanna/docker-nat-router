@@ -1,7 +1,9 @@
-docker-dnsmasq
-==============
+Docker nat-router
+=================
 
-Docker container to run dnsmasq using pipework to bridge to the target network for DHCP, DNS and TFTP services.  DHCP in particular needs to be bridged (as opposed to port forwarded) so that it can receive and send broadcast packets.
+Docker container that functions as a simple NAT router.  Linux iptables MASQUERADE provides network address translation (NAT) and dnsmasq provides DHCP, DNS, and TFP services.
+
+The container is bridged to the local area network using pipework to create eth1.  The container needs privileged for some ioctl() calls in dnsmasq (SIOCSARP in particular needs NET_ADIN) as well as to do anything in iptables.
 
 Build
 -----
@@ -11,9 +13,9 @@ Build
 Run
 ---
 
-Create a docker container with the specified dnsmasq arguments and start in daemon mode.  Then start [pipework](https://github.com/jpetazzo/pipework) to bridge the running container to the desired network.  In this example eth2 is assumed to be an interface on the host docker host machine functioning as a router with IP 10.1.2.1/24.
+Create a docker container with the specified dnsmasq arguments and start in daemon mode.  Then start [pipework](https://github.com/jpetazzo/pipework) to bridge the running container to the desired network.  Running the container privileged enables it to also perform NAT routing / masquerade.
 
-    $ docker run --daemon --name dnsmasq10 dnsmasq --dhcp-range=10.1.2.100,10.1.2.200,255.255.255.0 --dhcp-option=option:router,10.1.2.1
+    $ docker run --privileged --daemon --name dnsmasq10 dnsmasq --dhcp-range=10.1.2.100,10.1.2.200,255.255.255.0
     $ pipework eth2 dnsmasq10 10.1.2.2/24
 
 Todo
