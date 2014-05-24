@@ -8,15 +8,15 @@ The container is bridged to the local area network using pipework to create eth1
 Build
 -----
 
-    $ docker build -t dnsmasq .
+    $ docker build -t nat-router .
 
 Run
 ---
 
 Create a docker container with the specified dnsmasq arguments and start in daemon mode.  Then start [pipework](https://github.com/jpetazzo/pipework) to bridge the running container to the desired network.  Running the container privileged enables it to also perform NAT routing / masquerade.
 
-    $ docker run --privileged --daemon --name dnsmasq10 dnsmasq --dhcp-range=10.1.2.100,10.1.2.200,255.255.255.0
-    $ pipework eth2 dnsmasq10 10.1.2.2/24
+    $ docker run --privileged --detach --name nat-router-eth2 nat-router --dhcp-range=10.1.2.100,10.1.2.200,255.255.255.0
+    $ pipework eth2 nat-router-eth2 10.1.2.1/24
 
 Todo
 ----
