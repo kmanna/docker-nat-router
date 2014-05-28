@@ -1,5 +1,5 @@
 # Pull lean base image.
-FROM debian:wheezy
+FROM debian:jessie
 
 MAINTAINER Kyle Manna <kmanna@fanhattan.com>
 
